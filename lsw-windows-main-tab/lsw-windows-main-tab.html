@@ -1,0 +1,25 @@
+<div class="lsw_windows_main_tab">
+        <div class="dialog_window" v-bind:key="'main_dialog'" :style="{ zIndex: 501 }">
+            <div class="dialog_topbar">
+                <div class="dialog_title">
+                    <div>Process manager</div>
+                </div>
+                <div class="dialog_topbar_buttons">
+                    <button v-if="$consoleHooker?.is_shown === false" class="mini" style="white-space: nowrap;flex: 1; margin-right: 4px;" v-on:click="() => $consoleHooker.show()">Show console</button>
+                    <button class="mini" v-on:click="viewer.toggleState">-</button>
+                </div>
+            </div>
+            <div class="dialog_body">
+                <div class="main_tab_topbar">
+                    <button class="" v-on:click="openRest">DB</button>
+                    <button class="" v-on:click="openFilesystem">FS</button>
+                </div>
+                <div v-for="dialog, dialogIndex, dialogCounter in $lsw.dialogs.opened" v-bind:key="'dialog-' + dialogIndex">
+                    <a href="javascript:void(0)" v-on:click="() => viewer.selectDialog(dialogIndex)">{{ dialogCounter + 1 }}. {{ dialog.title }} [{{ dialog.id }}]</a>
+                </div>
+            </div>
+            <div class="dialog_footer">
+                <button class="" v-on:click="viewer.toggleState">Minimize</button>
+            </div>
+        </div>
+</div>
