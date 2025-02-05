@@ -1,8 +1,9 @@
 /*
-  @source: https://github.com/allnulled/lsw-windows
-  @version: 1.0.0
+  @artifact:  Lite Starter Web Dependency
+  @url:       https://github.com/allnulled/lsw-windows.git
+  @name:      @allnulled/lsw-windows
+  @version:   1.0.0
 */
-
 .lsw_windows_pivot_button {
     position: fixed;
     top: auto;
@@ -18,5 +19,10 @@
     right: 5px;
     background-color: white;
     color: black;
+}
+.lsw_windows_main_tab .main_tab_topbar {
+    border-bottom: 1px solid black;
+    padding: 1px;
+    padding-bottom: 0px;
 }
 

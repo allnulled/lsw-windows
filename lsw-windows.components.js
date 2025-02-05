@@ -13,7 +13,7 @@
 // Change this component at your convenience:
 Vue.component("LswWindowsViewer", {
   template: `<div class="lsw-windows-viewer">
-    <lsw-dialogs></lsw-dialogs>
+    <lsw-dialogs ref="dialogs" :as-windows="true"></lsw-dialogs>
     <lsw-windows-pivot-button :viewer="this" />
     <template v-if="isShowing">
         <lsw-windows-main-tab :viewer="this" />
@@ -26,9 +26,29 @@ Vue.component("LswWindowsViewer", {
     };
   },
   methods: {
+    hide() {
+      this.isShowing = false;
+    },
+    show() {
+      this.isShowing = true;
+    },
     toggleState() {
       this.isShowing = !this.isShowing;
       this.$forceUpdate(true);
+    },
+    selectDialog(id) {
+      Iterating_dialogs:
+      for(let dialogId in this.$refs.dialogs.opened) {
+        if(id === dialogId) {
+          continue Iterating_dialogs;
+        }
+        const dialogData = this.$refs.dialogs.opened[dialogId];
+        const currentPriority = parseInt(dialogData.priority);
+        this.$refs.dialogs.opened[dialogId].priority = currentPriority - 1;
+      }
+      this.$refs.dialogs.opened[id].priority = 500;
+      this.$refs.dialogs.opened[id].minimized = false;
+      this.hide();
     }
   },
   mounted() {
@@ -67,19 +87,24 @@ Vue.component("LswWindowsMainTab", {
         <div class="dialog_window" v-bind:key="'main_dialog'" :style="{ zIndex: 501 }">
             <div class="dialog_topbar">
                 <div class="dialog_title">
-                    Process manager
+                    <div>Process manager</div>
                 </div>
                 <div class="dialog_topbar_buttons">
-                    <button class="mini" v-on:click="viewer.toggleState">X</button>
+                    <button v-if="$consoleHooker?.is_shown === false" class="mini" style="white-space: nowrap;flex: 1; margin-right: 4px;" v-on:click="() => $consoleHooker.show()">Show console</button>
+                    <button class="mini" v-on:click="viewer.toggleState">-</button>
                 </div>
             </div>
             <div class="dialog_body">
+                <div class="main_tab_topbar">
+                    <button class="" v-on:click="openRest">DB</button>
+                    <button class="" v-on:click="openFilesystem">FS</button>
+                </div>
                 <div v-for="dialog, dialogIndex, dialogCounter in $lsw.dialogs.opened" v-bind:key="'dialog-' + dialogIndex">
-                    <a href="#">{{ dialogCounter + 1 }}. {{ dialog.title }} [{{ dialog.id }}]</a>
+                    <a href="javascript:void(0)" v-on:click="() => viewer.selectDialog(dialogIndex)">{{ dialogCounter + 1 }}. {{ dialog.title }} [{{ dialog.id }}]</a>
                 </div>
             </div>
             <div class="dialog_footer">
-                <button v-on:click="viewer.toggleState">Cancel</button>
+                <button class="" v-on:click="viewer.toggleState">Minimize</button>
             </div>
         </div>
 </div>`,
@@ -95,7 +120,30 @@ Vue.component("LswWindowsMainTab", {
     };
   },
   methods: {
-
+    getRandomString(len = 10) {
+      const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+      let out = "";
+      while(out.length < len) {
+        out += alphabet[Math.floor(Math.random() * alphabet.length)];
+      }
+      return out;
+    },
+    openRest() {
+      this.viewer.hide();
+      this.$dialogs.open({
+        id: "rest-dialog-" + this.getRandomString(),
+        title: "Database explorer",
+        template: `<lsw-database-explorer />`,
+      });
+    },
+    openFilesystem() {
+      this.viewer.hide();
+      this.$dialogs.open({
+        id: "filesystem-dialog-" + this.getRandomString(),
+        title: "Filesystem explorer",
+        template: `<lsw-filesystem-explorer />`,
+      });
+    },
   },
   mounted() {
     
