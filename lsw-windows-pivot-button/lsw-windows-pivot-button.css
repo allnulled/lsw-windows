@@ -5,3 +5,13 @@
     left: 9px;
     right: auto;
 }
+.lsw_windows_pivot_button > button {
+    max-height: 24px;
+    min-width: 24px;
+    border-radius: 50%;
+    vertical-align: middle;
+    opacity: 0.6;
+}
+.lsw_windows_pivot_button > button:hover {
+    opacity: 1;
+}

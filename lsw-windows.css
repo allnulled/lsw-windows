@@ -11,6 +11,16 @@
     left: 9px;
     right: auto;
 }
+.lsw_windows_pivot_button > button {
+    max-height: 24px;
+    min-width: 24px;
+    border-radius: 50%;
+    vertical-align: middle;
+    opacity: 0.6;
+}
+.lsw_windows_pivot_button > button:hover {
+    opacity: 1;
+}
 .lsw_windows_main_tab {
     position: fixed;
     top: 5px;
@@ -22,7 +32,19 @@
 }
 .lsw_windows_main_tab .main_tab_topbar {
     border-bottom: 1px solid black;
-    padding: 1px;
-    padding-bottom: 0px;
+    padding: 4px;
+    padding-bottom: 3px;
+    background-color: #DFDFDF;
+    text-align: right;
+}
+.main_tab_topbar_button {
+    
+}
+.pad_normal {
+    padding: 4px;
+}
+
+.dialog_title {
+    
 }
 

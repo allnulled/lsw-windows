@@ -19,18 +19,8 @@ Vue.component("LswWindowsViewer", {
       this.$forceUpdate(true);
     },
     selectDialog(id) {
-      Iterating_dialogs:
-      for(let dialogId in this.$refs.dialogs.opened) {
-        if(id === dialogId) {
-          continue Iterating_dialogs;
-        }
-        const dialogData = this.$refs.dialogs.opened[dialogId];
-        const currentPriority = parseInt(dialogData.priority);
-        this.$refs.dialogs.opened[dialogId].priority = currentPriority - 1;
-      }
-      this.$refs.dialogs.opened[id].priority = 500;
-      this.$refs.dialogs.opened[id].minimized = false;
       this.hide();
+      this.$refs.dialogs.maximize(id);
     }
   },
   mounted() {

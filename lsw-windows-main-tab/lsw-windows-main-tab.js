@@ -24,7 +24,7 @@ Vue.component("LswWindowsMainTab", {
     openRest() {
       this.viewer.hide();
       this.$dialogs.open({
-        id: "rest-dialog-" + this.getRandomString(),
+        id: "database-explorer-" + this.getRandomString(5),
         title: "Database explorer",
         template: `<lsw-database-explorer />`,
       });
@@ -32,9 +32,25 @@ Vue.component("LswWindowsMainTab", {
     openFilesystem() {
       this.viewer.hide();
       this.$dialogs.open({
-        id: "filesystem-dialog-" + this.getRandomString(),
+        id: "filesystem-explorer-" + this.getRandomString(5),
         title: "Filesystem explorer",
         template: `<lsw-filesystem-explorer />`,
+      });
+    },
+    openWiki() {
+      this.viewer.hide();
+      this.$dialogs.open({
+        id: "wiki-explorer-" + this.getRandomString(5),
+        title: "Wiki explorer",
+        template: `<lsw-wiki />`,
+      });
+    },
+    openAgenda() {
+      this.viewer.hide();
+      this.$dialogs.open({
+        id: "agenda-viewer-" + this.getRandomString(5),
+        title: "Agenda viewer",
+        template: `<lsw-agenda />`,
       });
     },
   },

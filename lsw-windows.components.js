@@ -37,18 +37,8 @@ Vue.component("LswWindowsViewer", {
       this.$forceUpdate(true);
     },
     selectDialog(id) {
-      Iterating_dialogs:
-      for(let dialogId in this.$refs.dialogs.opened) {
-        if(id === dialogId) {
-          continue Iterating_dialogs;
-        }
-        const dialogData = this.$refs.dialogs.opened[dialogId];
-        const currentPriority = parseInt(dialogData.priority);
-        this.$refs.dialogs.opened[dialogId].priority = currentPriority - 1;
-      }
-      this.$refs.dialogs.opened[id].priority = 500;
-      this.$refs.dialogs.opened[id].minimized = false;
       this.hide();
+      this.$refs.dialogs.maximize(id);
     }
   },
   mounted() {
@@ -59,7 +49,7 @@ Vue.component("LswWindowsViewer", {
 // Change this component at your convenience:
 Vue.component("LswWindowsPivotButton", {
   template: `<div class="lsw_windows_pivot_button">
-    <button v-on:click="onClick">...</button>
+    <button id="windows_pivot_button" v-on:click="onClick" class="">☰</button>
 </div>`,
   props: {
     viewer: {
@@ -90,17 +80,23 @@ Vue.component("LswWindowsMainTab", {
                     <div>Process manager</div>
                 </div>
                 <div class="dialog_topbar_buttons">
-                    <button v-if="$consoleHooker?.is_shown === false" class="mini" style="white-space: nowrap;flex: 1; margin-right: 4px;" v-on:click="() => $consoleHooker.show()">Show console</button>
-                    <button class="mini" v-on:click="viewer.toggleState">-</button>
+                    <button v-if="$consoleHooker?.is_shown === false" class="mini" style="white-space: nowrap;flex: 1; margin-right: 4px;" v-on:click="() => $consoleHooker.show()">🍀</button><button class="mini" v-on:click="viewer.toggleState">-</button>
                 </div>
             </div>
             <div class="dialog_body">
                 <div class="main_tab_topbar">
-                    <button class="" v-on:click="openRest">DB</button>
-                    <button class="" v-on:click="openFilesystem">FS</button>
+                    <button class="main_tab_topbar_button" v-on:click="openAgenda">AGENDA</button>
+                    <button class="main_tab_topbar_button" v-on:click="openWiki">WIKI</button>
+                    <button class="main_tab_topbar_button" v-on:click="openRest">DB</button>
+                    <button class="main_tab_topbar_button" v-on:click="openFilesystem">FS</button>
                 </div>
-                <div v-for="dialog, dialogIndex, dialogCounter in $lsw.dialogs.opened" v-bind:key="'dialog-' + dialogIndex">
-                    <a href="javascript:void(0)" v-on:click="() => viewer.selectDialog(dialogIndex)">{{ dialogCounter + 1 }}. {{ dialog.title }} [{{ dialog.id }}]</a>
+                <div class="pad_normal" v-if="!Object.keys($lsw.dialogs.opened).length">
+                    <span>No processes found right now.</span>
+                </div>
+                <div class="pad_normal" v-else>
+                    <div v-for="dialog, dialogIndex, dialogCounter in $lsw.dialogs.opened" v-bind:key="'dialog-' + dialogIndex">
+                        <a href="javascript:void(0)" v-on:click="() => viewer.selectDialog(dialogIndex)">{{ dialogCounter + 1 }}. {{ dialog.title }} [{{ dialog.id }}]</a>
+                    </div>
                 </div>
             </div>
             <div class="dialog_footer">
@@ -131,7 +127,7 @@ Vue.component("LswWindowsMainTab", {
     openRest() {
       this.viewer.hide();
       this.$dialogs.open({
-        id: "rest-dialog-" + this.getRandomString(),
+        id: "database-explorer-" + this.getRandomString(5),
         title: "Database explorer",
         template: `<lsw-database-explorer />`,
       });
@@ -139,9 +135,25 @@ Vue.component("LswWindowsMainTab", {
     openFilesystem() {
       this.viewer.hide();
       this.$dialogs.open({
-        id: "filesystem-dialog-" + this.getRandomString(),
+        id: "filesystem-explorer-" + this.getRandomString(5),
         title: "Filesystem explorer",
         template: `<lsw-filesystem-explorer />`,
+      });
+    },
+    openWiki() {
+      this.viewer.hide();
+      this.$dialogs.open({
+        id: "wiki-explorer-" + this.getRandomString(5),
+        title: "Wiki explorer",
+        template: `<lsw-wiki />`,
+      });
+    },
+    openAgenda() {
+      this.viewer.hide();
+      this.$dialogs.open({
+        id: "agenda-viewer-" + this.getRandomString(5),
+        title: "Agenda viewer",
+        template: `<lsw-agenda />`,
       });
     },
   },
