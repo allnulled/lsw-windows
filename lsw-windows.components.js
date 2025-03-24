@@ -80,7 +80,7 @@ Vue.component("LswWindowsMainTab", {
                     <div>Process manager</div>
                 </div>
                 <div class="dialog_topbar_buttons">
-                    <button v-if="$consoleHooker?.is_shown === false" class="mini" style="white-space: nowrap;flex: 1; margin-right: 4px;" v-on:click="() => $consoleHooker.show()">💻</button><button class="mini" v-on:click="viewer.toggleState">-</button>
+                    <button v-if="\$consoleHooker?.is_shown === false" class="mini" style="white-space: nowrap;flex: 1; margin-right: 4px;" v-on:click="() => \$consoleHooker?.show()">💻</button><button class="mini" v-on:click="viewer.toggleState">-</button>
                 </div>
             </div>
             <div class="dialog_body">
@@ -90,11 +90,11 @@ Vue.component("LswWindowsMainTab", {
                     <button class="main_tab_topbar_button" v-on:click="openRest">Data</button>
                     <button class="main_tab_topbar_button" v-on:click="openFilesystem">Files</button>
                 </div>
-                <div class="pad_normal" v-if="!Object.keys($lsw.dialogs.opened).length">
+                <div class="pad_normal" v-if="!Object.keys(\$lsw.dialogs.opened).length">
                     <span>No processes found right now.</span>
                 </div>
                 <div class="pad_normal" v-else>
-                    <div v-for="dialog, dialogIndex, dialogCounter in $lsw.dialogs.opened" v-bind:key="'dialog-' + dialogIndex">
+                    <div v-for="dialog, dialogIndex, dialogCounter in \$lsw.dialogs.opened" v-bind:key="'dialog-' + dialogIndex">
                         <a href="javascript:void(0)" v-on:click="() => viewer.selectDialog(dialogIndex)">{{ dialogCounter + 1 }}. {{ dialog.title }} [{{ dialog.id }}]</a>
                     </div>
                 </div>
