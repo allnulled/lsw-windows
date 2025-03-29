@@ -80,15 +80,16 @@ Vue.component("LswWindowsMainTab", {
                     <div>Process manager</div>
                 </div>
                 <div class="dialog_topbar_buttons">
-                    <button v-if="\$consoleHooker?.is_shown === false" class="mini" style="white-space: nowrap;flex: 1; margin-right: 4px;" v-on:click="() => \$consoleHooker?.show()">💻</button><button class="mini" v-on:click="viewer.toggleState">-</button>
+                    <button v-if="\$consoleHooker?.is_shown === false" class="mini" style="white-space: nowrap;flex: 1; margin-right: 4px;" v-on:click="() => \$consoleHooker?.show()">💻</button
+                    ><button class="mini" v-on:click="viewer.toggleState">💡</button>
                 </div>
             </div>
             <div class="dialog_body">
                 <div class="main_tab_topbar">
-                    <button class="main_tab_topbar_button" v-on:click="openAgenda">Agenda</button>
-                    <button class="main_tab_topbar_button" v-on:click="openWiki">Wiki</button>
-                    <button class="main_tab_topbar_button" v-on:click="openRest">Data</button>
-                    <button class="main_tab_topbar_button" v-on:click="openFilesystem">Files</button>
+                    <button class="main_tab_topbar_button" v-on:click="openAgenda">📓 Agenda</button>
+                    <button class="main_tab_topbar_button" v-on:click="openWiki">🔬 Wiki</button>
+                    <button class="main_tab_topbar_button" v-on:click="openRest">📦 Data</button>
+                    <button class="main_tab_topbar_button" v-on:click="openFilesystem">📂 Files</button>
                 </div>
                 <div class="pad_normal" v-if="!Object.keys(\$lsw.dialogs.opened).length">
                     <span>No processes found right now.</span>
